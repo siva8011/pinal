@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Webpage</title>
+    <style>
+        <p>
+            
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            /* overflow: hidden; */
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(68, 68, 68, 0.8);
+            padding: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            width: 100%;
+            z-index: 10;
+        }
+        .site-name-below {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            position: absolute;
+            top: 80px;
+            left: 40px;
+            z-index: 5;
+        }
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s, border-bottom 0.3s;
+            position: relative;
+        }
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: #f4f4f9;
+            transition: width 0.3s ease;
+            -webkit-transition: width 0.3s ease;
+        }
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+            background: #f4f4f9;
+        }
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: #555;
+            color: #f4f4f9;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            background-color: #fff;
+            min-width: 440px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            padding: 10px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .content-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .text-content {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .image-content {
+            flex: 1;
+            max-width: 500px;
+            margin-top: 20px;
+        }
+        .image-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .image-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20%; /* Covers the last 20% of the image */
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .footer div {
+            flex: 1;
+            margin: 10px;
+        }
+        .footer h2 {
+            margin-top: 0;
+        }
+        .footer a {
+            color: #f4f4f9;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .quick-links ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .quick-links li {
+            margin: 5px 0;
+        }
+        .floating-contact-bar {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px 0 0 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            padding: 5px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .contact-link {
+            display: block;
+            margin: 5px 0;
+            transition: background-color 0.3s;
+        }
+        .contact-link img {
+            width: 40px;
+            height: 40px;
+        }
+        .contact-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(-50%);
+            }
+            50% {
+                transform: translateY(-45%);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#home">Home</a>
+    <div class="dropdown">
+        <a href="#about" class="dropbtn">About Us</a>
+        <div class="dropdown-content">
+            <a href="#">India</a>
+            <a href="#">Delhi</a>
+            <a href="#">Andaman and Nicobar Islands</a>
+            <a href="#">Uttar Pradesh</a>
+            <a href="#">Sikkim</a>
+            <a href="#">Jammu and Kashmir</a>
+            <a href="#">Himachal Pradesh</a>
+            <a href="#">Maharashtra</a>
+            <a href="#">Kerala</a>
+            <a href="#">Tamil Nadu</a>
+            <a href="#">View All Packages</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="#packages" class="dropbtn">Packages</a>
+        <div class="dropdown-content">
+            <a href="#">International</a>
+            <a href="#">South Africa</a>
+            <a href="#">Singapore</a>
+            <a href="#">Sri Lanka</a>
+            <a href="#">Turkey</a>
+            <a href="#">USA</a>
+            <a href="#">Vietnam</a>
+            <a href="#">United Kingdom</a>
+            <a href="#">Australia</a>
+            <a href="#">Bali</a>
+            <a href="#">China</a>
+            <a href="#">Dubai</a>
+            <a href="#">Europe</a>
+            <a href="#">Malaysia</a>
+            <a href="#">Israel</a>
+            <a href="#">Japan</a>
+            <a href="#">View All Packages</a>
+        </div>
+    </div>
+    <div class="dropdown">
+        <a href="#honeymoon" class="dropbtn">Honeymoon</a>
+        <div class="dropdown-content">
+            <a href="#">India</a>
+            <a href="#">Goa</a>
+            <a href="#">Kerala</a>
+            <a href="#">Shimla</a>
+            <a href="#">Manali</a>
+            <a href="#">Andaman</a>
+            <a href="#">Himachal</a>
+            <a href="#">Munnar</a>
+            <a href="#">Kodaikanal</a>
+            <a href="#">Coorg</a>
+            <a href="#">Ooty</a>
+            <a href="#">Kashmir</a>
+            <a href="#">Darjeeling</a>
+            <a href="#">International</a>
+            <a href="#">Maldives</a>
+            <a href="#">Bali</a>
+            <a href="#">Mauritius</a>
+            <a href="#">Phuket</a>
+            <a href="#">Switzerland</a>
+            <a href="#">Seychelles</a>
+            <a href="#">Paris</a>
+            <a href="#">Italy</a>
+            <a href="#">Thailand</a>
+            <a href="#">Dubai</a>
+            <a href="#">Sri Lanka</a>
+            <a href="#">Singapore</a>
+        </div>
+    </div>
+    <a href="#cruises">Cruises</a>
+    <a href="#wedding">Wedding</a>
+    <a href="#careers">Careers</a>
+    <a href="#contact">Contact</a>
+</div>
+
+<div class="site-name-below">Siva Travels</div>
+
+<div class="video-container">
+    <video id="videoPlayer" autoplay muted preload="auto">
+        <source src="v1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<div class="content-section">
+    <div class="text-content">
+        <h2>Home</h2>
+        <p>Experience unforgettable holidays in beautiful lands, exploring cultures and creations. International travel is now accessible with Jai Sun Tourism Pvt Ltd, offering the best deals for your dream holiday.</p>
+        <p>Our packages cover amazing global destinations, with itineraries available on our website to suit your schedule, taste, and budget.</p>
+        <p>Explore our International Tour Packages:</p>
+        <ul>
+            <li>Dubai</li>
+            <li>Thailand</li>
+            <li>Bali</li>
+            <li>Srilanka</li>
+            <li>Europe</li>
+            <li>Singapore</li>
+            <li>Malaysia</li>
+            <li>China</li>
+            <li>Japan</li>
+            <li>New Zealand</li>
+            <li>USA</li>
+        </ul>
+    </div>
+    <div class="image-content">
+        <img src="dubai.jpg" alt="Travel Image" style="width:100%; height:auto; border-radius: 8px;">
+    </div>
+</div>
+
+<div class="image-grid">
+    <div class="image-item" data-aos="fade-up">
+        <img src="andaman.jpg" alt="Bali">
+        <div class="image-overlay">Bali</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="azerbaijan.jpg" alt="Maldives">
+        <div class="image-overlay">Maldives</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="bali.jpg" alt="China">
+        <div class="image-overlay">China</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="cambodia.jpg" alt="Thailand">
+        <div class="image-overlay">Thailand</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="currency.webp" alt="Sri Lanka">
+        <div class="image-overlay">Sri Lanka</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="delhi.jpg" alt="Russia">
+        <div class="image-overlay">Russia</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="dubai.jpg" alt="Switzerland">
+        <div class="image-overlay">Switzerland</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="europe.jpg" alt="New Zealand">
+        <div class="image-overlay">New Zealand</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="goa.jpg" alt="UK & Europe">
+        <div class="image-overlay">UK & Europe</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="himachal pradesh.jpg" alt="Mauritius">
+        <div class="image-overlay">Mauritius</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="kashmir.jpg" alt="Turkey">
+        <div class="image-overlay">Turkey</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="kasi.jpg" alt="Philippines">
+        <div class="image-overlay">Philippines</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="kerala.jpg" alt="Cambodia & Vietnam">
+        <div class="image-overlay">Cambodia & Vietnam</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="logo.avif" alt="Singapore & Malaysia">
+        <div class="image-overlay">Singapore & Malaysia</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="malaisia.jpg" alt="Dubai">
+        <div class="image-overlay">Dubai</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="maldives.jpg" alt="Japan">
+        <div class="image-overlay">Japan</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="shimla-manali.jpg" alt="Hong Kong & Macau">
+        <div class="image-overlay">Hong Kong & Macau</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="shimla-manali.jpg" alt="South Africa">
+        <div class="image-overlay">South Africa</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="sikkim.jpg" alt="Georgia">
+        <div class="image-overlay">Georgia</div>
+    </div>
+    <div class="image-item" data-aos="fade-up">
+        <img src="singapore.jpg" alt="Armenia">
+        <div class="image-overlay">Armenia</div>
+    </div>
+    
+    <div class="image-item" data-aos="fade-up">
+        <img src="types of tours.avif" alt="Tanzania Kilimanjaro">
+        <div class="image-overlay">Tanzania Kilimanjaro</div>
+    </div>
+</div>
+
+<script>
+    const videoPlayer = document.getElementById('videoPlayer');
+    const videoSources = [
+        'v1.mp4',
+        'v2.mp4',
+        'v3.mp4'
+    ];
+    let currentVideoIndex = 0;
+
+    function playNextVideo() {
+        currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+        videoPlayer.src = videoSources[currentVideoIndex];
+        videoPlayer.play();
+    }
+
+    videoPlayer.addEventListener('timeupdate', () => {
+        if (videoPlayer.currentTime >= videoPlayer.duration - 0.5) {
+            playNextVideo();
+        }
+    });
+
+    // Preload the next video to reduce lag
+    videoPlayer.addEventListener('canplaythrough', () => {
+        const nextVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+        const nextVideo = document.createElement('video');
+        nextVideo.src = videoSources[nextVideoIndex];
+        nextVideo.preload = 'auto';
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000, // Animation duration in milliseconds
+        once: true // Whether animation should happen only once
+    });
+</script>
+
+<div class="footer">
+    <div class="about-us">
+        <h2>About Us</h2>
+        <p>Jai Sun Tourism Pvt Ltd is a Professional Travel Agency in Coimbatore, South India. Over a span of 20 years experience in Travel Industry, the company has grown in strength and stature. Today Jai Sun Tourism Pvt Ltd caters to diverse needs of Domestic and International travel.</p>
+    </div>
+    <div class="contact-us">
+        <h2>Contact Us</h2>
+        <p>JAI SUN TOURISM PRIVATE LIMITED</p>
+        <p>NO:08, OLD NO:47, FATHER RHONDY STREET, (Behind Cafe Coffee Day), R.S.Puram, Coimbatore, Tamil Nadu, INDIA, PIN CODE - 641002.</p>
+        <p>Email: <a href="mailto:info@jaisuntourism.com">info@jaisuntourism.com</a></p>
+        <p>Phone: 0422-4221001, 98432 41674</p>
+    </div>
+    <div class="quick-links">
+        <h2>Quick Links</h2>
+        <ul>
+            <li><a href="#about">About us</a></li>
+            <li><a href="#international-tours">International Tours</a></li>
+            <li><a href="#domestic-tours">Domestic Tours</a></li>
+            <li><a href="#honeymoon-packages">Honeymoon Packages</a></li>
+            <li><a href="#special-offer">Special Offer</a></li>
+            <li><a href="#testimonial">Testimonial</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact us</a></li>
+            <li><a href="#privacy-policy">Privacy policy and Terms & Conditions</a></li>
+            <li><a href="#sitemap">Sitemap</a></li>
+            <li><a href="#blog">Blog</a></li>
+        </ul>
+    </div>
+    <div class="route-map">
+        <h2>Route Map</h2>
+        <p>Last page of the website</p>
+    </div>
+</div>
+
+<div class="floating-contact-bar">
+    <a href="https://wa.me/6383462811" target="_blank" class="contact-link whatsapp">
+        <img src="whatsapp logo.jpg" alt="WhatsApp">
+    </a>
+    <a href="https://www.instagram.com/sivaaaa_07_/profilecard/?igsh=bnR5MzE2NXVsNGtw" target="_blank" class="contact-link instagram">
+        <img src="insta logo.avif" alt="Instagram">
+    </a>
+    <a href="https://www.facebook.com/your-facebook-page" target="_blank" class="contact-link facebook">
+        <img src="facebook logo.webp" alt="Facebook">
+    </a>
+</div>
+
+</body>
+</html>
