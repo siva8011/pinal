@@ -500,17 +500,85 @@
     </div>
 </div>
 
-<div class="floating-contact-bar">
-    <a href="https://wa.me/6383462811" target="_blank" class="contact-link whatsapp">
-        <img src="whatsapp logo.jpg" alt="WhatsApp">
+<!-- Social Media Floating Buttons -->
+<div class="floating-social-icons">
+    <a href="https://facebook.com" target="_blank" class="social-icon facebook">
+      <i class="fa fa-facebook"></i>
     </a>
-    <a href="https://www.instagram.com/sivaaaa_07_/profilecard/?igsh=bnR5MzE2NXVsNGtw" target="_blank" class="contact-link instagram">
-        <img src="insta logo.avif" alt="Instagram">
+    <a href="https://www.instagram.com/Sivaaaa_07_/profilecard/?igsh=bnR5MzE2NXVsNGtw" target="_blank" class="social-icon instagram">
+      <i class="fa fa-instagram"></i>
     </a>
-    <a href="https://www.facebook.com/your-facebook-page" target="_blank" class="contact-link facebook">
-        <img src="facebook logo.webp" alt="Facebook">
+    <a href="https://whatsapp.com" target="_blank" class="social-icon whatsapp">
+      <i class="fa fa-whatsapp"></i>
     </a>
-</div>
+  </div>
+  
+  <!-- Font Awesome for Social Media Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <style>
+    /* Floating Social Icons Container */
+    .floating-social-icons {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+  
+    /* Individual Social Icon */
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease-in-out;
+    }
+  
+    /* Facebook Icon */
+    .social-icon.facebook {
+      background-color: #3b5998;
+    }
+  
+    /* Instagram Icon */
+    .social-icon.instagram {
+      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    }
+  
+    /* WhatsApp Icon */
+    .social-icon.whatsapp {
+      background-color: #25d366;
+    }
+  
+    /* Hover Effects */
+    .social-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+  
+    /* Floating Animation */
+    .floating-social-icons a {
+      animation: float 3s infinite ease-in-out;
+    }
+  
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(-5px);
+      }
+      50% {
+        transform: translateY(5px);
+      }
+    }
+  </style>
 
 </body>
 </html>
